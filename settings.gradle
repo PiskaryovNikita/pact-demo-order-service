@@ -1,0 +1,7 @@
+rootProject.name = 'order-service-parent'
+include(':order-service-api')
+include(':order-service-app')
+include(':order-service-impl')
+project(':order-service-api').projectDir = file('api')
+project(':order-service-app').projectDir = file('app')
+project(':order-service-impl').projectDir = file('impl')

@@ -1,0 +1,14 @@
+plugins{
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
+}
+
+bootJar {
+    mainClassName = 'com.gongsi.product.management.OrderServiceApplication'
+}
+
+dependencies {
+    implementation project(':order-service-api')
+    implementation project(':order-service-impl')
+}
+
+description = 'Order Service :: Application'

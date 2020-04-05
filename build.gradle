@@ -1,0 +1,71 @@
+plugins {
+    id 'java'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+}
+
+allprojects {
+    group = 'com.gongsi'
+    version = '0.0.1-SNAPSHOT'
+
+    repositories {
+        jcenter()
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url = 'http://repo.maven.apache.org/maven2'
+        }
+    }
+}
+                // Groovy map literal, dependencyManagement in Gradle
+ext.libraries = [
+        javax_interceptor_api: "javax.interceptor:javax.interceptor-api:1.2",
+        pact_consumer: "au.com.dius:pact-jvm-consumer-junit:4.0.5"
+]
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java-library'
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.2.0.RELEASE")
+        }
+
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-autoconfigure'
+        implementation 'org.springframework.boot:spring-boot-configuration-processor'
+        implementation 'org.springframework.boot:spring-boot-devtools'
+        implementation 'javax.annotation:javax.annotation-api'
+        implementation 'jakarta.ws.rs:jakarta.ws.rs-api'
+        implementation 'jakarta.xml.ws:jakarta.xml.ws-api'
+        implementation 'org.slf4j:slf4j-api'
+        implementation 'com.google.guava:guava:28.0-jre'
+        implementation 'org.apache.commons:commons-lang3'
+        implementation 'org.apache.cxf:cxf-spring-boot-starter-jaxrs:3.3.2'
+        implementation 'org.apache.cxf:cxf-rt-rs-service-description-swagger:3.3.2'
+        implementation 'org.apache.cxf:cxf-rt-rs-service-description:3.3.2'
+        implementation 'org.apache.cxf:cxf-rt-rs-client:3.3.2'
+        implementation 'io.swagger:swagger-annotations:1.5.22'
+        implementation 'org.webjars:swagger-ui:3.22.2'
+        implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.9.3'
+
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+        testImplementation 'junit:junit'
+        testImplementation 'org.mockito:mockito-core'
+        testImplementation 'org.springframework:spring-test'
+
+        testCompileOnly 'org.projectlombok:lombok:1.18.12'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+    }
+
+    compileJava {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+}

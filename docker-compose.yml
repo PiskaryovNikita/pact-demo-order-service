@@ -1,0 +1,11 @@
+version: '2'
+services:
+  mysql:
+    image: mysql:8.0.17
+    ports:
+      - '3307:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=pR2Ymle9&4Vu
+      - MYSQL_DATABASE=tutorialsDb
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=Pass20191006-.

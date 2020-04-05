@@ -3,6 +3,7 @@ package com.gongsi.order.service.impl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gongsi.order.service.api.OrderController;
+import com.gongsi.order.service.api.model.request.OrderRequest;
 import com.gongsi.order.service.api.model.response.OrderResponse;
 import com.gongsi.order.service.api.model.response.User;
 import com.gongsi.product.management.api.ProductController;
@@ -35,9 +36,17 @@ public class OrderControllerImpl implements OrderController {
     }
 
     @Override
-    public OrderResponse getOrder(long id) {
+    public OrderResponse createOrder(long id) {
         User user = new User(1L, "Name", "e@e.com");
         final ProductResponse productResponse = productService.getProduct(1L);
+
+        return new OrderResponse(user, OffsetDateTime.now(), productResponse);
+    }
+
+    @Override
+    public OrderResponse createOrder(OrderRequest request) {
+        User user = new User(1L, "Name", "e@e.com");
+        final ProductResponse productResponse = productService.createProduct(request.getProduct());
 
         return new OrderResponse(user, OffsetDateTime.now(), productResponse);
     }

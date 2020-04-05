@@ -60,11 +60,48 @@ public class OrderServiceConsumerTest {
                 .toPact();
     }
 
+    @Pact(consumer=CONSUMER, provider = PROVIDER)
+    public RequestResponsePact createProductFragment(PactDslWithProvider builder) {
+        PactDslJsonBody createProductRequest = new PactDslJsonBody()
+                .stringValue("name", "Keyboard")
+                .numberType("price", 2261.6);
+
+        PactDslJsonBody createProductResponse = new PactDslJsonBody()
+                .numberType("id", 1)
+                .stringType("name", "Keyboard")
+                .numberType("price", 2261.6);
+
+        final HashMap<String, String> headers = new HashMap<>();
+        headers.put(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON);
+        headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+
+        return builder
+                .given("create order state")
+                .uponReceiving("create order request")
+                .path("/api/products")
+                .method("POST")
+                .body(createProductRequest)
+                .headers(headers)
+                .willRespondWith()
+                .status(200)
+                .body(createProductResponse)
+                .toPact();
+    }
+
     //when using fragments then provider value must be specified
     @Test
     @PactVerification(value = PROVIDER, fragment = "getProductFragment")
     public void verifyGetProductRequest() {
         final ProductResponse product = productService.getProduct(1L);
+
+        //nonsense assertion, since this was specified when creating pact fragment
+        assertNotNull(product);
+    }
+
+    @Test
+    @PactVerification(value = PROVIDER, fragment = "createProductFragment")
+    public void verifyCreateProductRequest() {
+        final ProductResponse product = productService.createProduct(new ProductRequest("Keyboard", 2261.6));
 
         //nonsense assertion, since this was specified when creating pact fragment
         assertNotNull(product);

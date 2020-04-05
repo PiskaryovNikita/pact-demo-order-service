@@ -38,4 +38,26 @@ public class ProductService {
             throw new InternalServerErrorException(e.getMessage(), e);
         }
     }
+
+    public ProductResponse createProduct(ProductRequest productRequest) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+
+        final ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS, false);
+        try {
+            HttpPost request = new HttpPost(String.format("%s/api/products", productManagementPath));
+            final String requestBody = objectMapper.writeValueAsString(productRequest);
+            request.setEntity(new StringEntity(requestBody));
+            request.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON);
+            request.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+            String entity;
+            try (CloseableHttpResponse response = httpClient.execute(request)) {
+                entity = EntityUtils.toString(response.getEntity());
+            }
+            return objectMapper.readValue(entity, ProductResponse.class);
+        } catch (IOException e) {
+            throw new InternalServerErrorException(e.getMessage(), e);
+        }
+    }
 }

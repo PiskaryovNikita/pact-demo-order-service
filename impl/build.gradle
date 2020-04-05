@@ -1,31 +1,29 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.ajoberstar:gradle-git:1.7.2'
-        classpath 'org.ajoberstar:grgit:1.7.2'
-    }
-}
-
 plugins {
     id 'au.com.dius.pact' version '4.0.0'
-    id "org.ajoberstar.grgit" version "1.7.2"
 }
 
 dependencies {
     implementation project(':order-service-api')
-    implementation "${project.group}:product-management-api:0.0.1-SNAPSHOT"
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
 
     testImplementation libraries.pact_consumer
+}
+
+def getGitBranch() {
+    def branch = ""
+    def proc = "git rev-parse --abbrev-ref HEAD".execute()
+    proc.in.eachLine { line -> branch = line }
+    proc.err.eachLine { line -> println line }
+    proc.waitFor()
+    println branch
+    branch
 }
 
 pact {
     publish {
         providerVersion = project.version
         pactBrokerUrl = 'http://localhost'
-        tags = ["master"]
+        tags = [getGitBranch()]
     }
 }
 

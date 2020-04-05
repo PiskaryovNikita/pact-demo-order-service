@@ -1,6 +1,5 @@
 package com.gongsi.order.service.api.model.response;
 
-import java.time.OffsetDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderResponse {
-    private User user;
-    private OffsetDateTime orderDate;
-    private ProductResponse product;
+public class ProductResponse {
+    private long id;
+    private String name;
+    private double price;
 }

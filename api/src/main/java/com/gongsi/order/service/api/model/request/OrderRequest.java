@@ -1,8 +1,6 @@
 package com.gongsi.order.service.api.model.request;
 
 import com.gongsi.order.service.api.model.response.User;
-import com.gongsi.product.management.api.model.request.ProductRequest;
-import com.gongsi.product.management.api.model.response.ProductResponse;
 import java.time.OffsetDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;

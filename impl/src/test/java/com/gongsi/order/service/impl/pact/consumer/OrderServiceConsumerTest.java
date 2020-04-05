@@ -1,32 +1,27 @@
 package com.gongsi.order.service.impl.pact.consumer;
 
 import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
-import au.com.dius.pact.core.model.annotations.Pact;
+import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit.PactProviderRule;
 import au.com.dius.pact.consumer.junit.PactVerification;
-import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.core.model.RequestResponsePact;
+import au.com.dius.pact.core.model.annotations.Pact;
+import com.gongsi.order.service.api.model.request.ProductRequest;
+import com.gongsi.order.service.api.model.response.ProductResponse;
 import com.gongsi.order.service.impl.OrderServiceConfig;
 import com.gongsi.order.service.impl.ProductService;
-import com.gongsi.product.management.api.model.request.ProductRequest;
-import com.gongsi.product.management.api.model.response.ProductResponse;
+import java.util.HashMap;
 import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpHeaders;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.HashMap;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {OrderServiceConfig.class})

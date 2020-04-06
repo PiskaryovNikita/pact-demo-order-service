@@ -22,7 +22,7 @@ pact {
     publish {
         providerVersion = project.version
         pactBrokerUrl = 'http://localhost'
-        tags = [getGitBranch()]
+        tags = ['master']
     }
 }
 

@@ -9,13 +9,12 @@ dependencies {
     testImplementation libraries.pact_consumer
 }
 
-def getGitBranch() {
+static def getGitBranch() {
     def branch = ""
     def proc = "git rev-parse --abbrev-ref HEAD".execute()
     proc.in.eachLine { line -> branch = line }
     proc.err.eachLine { line -> println line }
     proc.waitFor()
-    println branch
     branch
 }
 

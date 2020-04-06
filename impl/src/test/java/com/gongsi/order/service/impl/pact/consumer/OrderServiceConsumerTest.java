@@ -45,8 +45,8 @@ public class OrderServiceConsumerTest {
                 .numberType("price");
 
         return builder
-                .given("get order state")
-                .uponReceiving("get order request")
+                .given("get product state")
+                .uponReceiving("get product request")
                 .path("/api/products/1")
                 .method("GET")
                 .willRespondWith()
@@ -58,6 +58,7 @@ public class OrderServiceConsumerTest {
     @Pact(consumer=CONSUMER, provider = PROVIDER)
     public RequestResponsePact createProductFragment(PactDslWithProvider builder) {
         PactDslJsonBody createProductRequest = new PactDslJsonBody()
+                .id("id")
                 .stringValue("name", "Keyboard")
                 .numberType("price", 2261.6);
 
@@ -71,8 +72,8 @@ public class OrderServiceConsumerTest {
         headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
 
         return builder
-                .given("create order state")
-                .uponReceiving("create order request")
+                .given("create product state")
+                .uponReceiving("create product request")
                 .path("/api/products")
                 .method("POST")
                 .body(createProductRequest)
@@ -98,7 +99,6 @@ public class OrderServiceConsumerTest {
     public void verifyCreateProductRequest() {
         final ProductResponse product = productService.createProduct(new ProductRequest("Keyboard", 2261.6));
 
-        //nonsense assertion, since this was specified when creating pact fragment
         assertNotNull(product);
     }
 }

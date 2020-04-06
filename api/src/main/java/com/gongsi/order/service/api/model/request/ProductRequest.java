@@ -8,6 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductRequest {
+    private long id;
     private String name;
     private double price;
+
+    public ProductRequest(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
 }

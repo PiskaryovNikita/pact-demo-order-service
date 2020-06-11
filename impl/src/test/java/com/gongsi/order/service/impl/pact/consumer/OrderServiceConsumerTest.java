@@ -84,6 +84,35 @@ public class OrderServiceConsumerTest {
                 .toPact();
     }
 
+    @Pact(consumer = CONSUMER, provider = PROVIDER)
+    public RequestResponsePact updateProductFragment(PactDslWithProvider builder) {
+        PactDslJsonBody updateProductRequest = new PactDslJsonBody()
+                .numberType("id", 1)
+                .stringValue("name", "Keyboard")
+                .numberType("price", 2261.6);
+
+        PactDslJsonBody createProductResponse = new PactDslJsonBody()
+                .numberType("id", 1)
+                .stringType("name", "Keyboard")
+                .numberType("price", 2261.6);
+
+        final HashMap<String, String> headers = new HashMap<>();
+        headers.put(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON);
+        headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+
+        return builder
+                .given("update product state")
+                .uponReceiving("update product request")
+                .path("/api/products/1")
+                .method("PUT")
+                .body(updateProductRequest)
+                .headers(headers)
+                .willRespondWith()
+                .status(200)
+                .body(createProductResponse)
+                .toPact();
+    }
+
     //when using fragments then provider value must be specified
     @Test
     @PactVerification(value = PROVIDER, fragment = "getProductFragment")
@@ -98,6 +127,14 @@ public class OrderServiceConsumerTest {
     @PactVerification(value = PROVIDER, fragment = "createProductFragment")
     public void verifyCreateProductRequest() {
         final ProductResponse product = productService.createProduct(new ProductRequest("Keyboard", 2261.6));
+
+        assertNotNull(product);
+    }
+
+    @Test
+    @PactVerification(value = PROVIDER, fragment = "updateProductFragment")
+    public void verifyUpdateProductRequest() {
+        final ProductResponse product = productService.updateProduct(new ProductRequest(1L, "Keyboard", 2261.6));
 
         assertNotNull(product);
     }

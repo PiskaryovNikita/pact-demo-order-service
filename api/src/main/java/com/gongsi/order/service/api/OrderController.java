@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
@@ -27,4 +28,9 @@ public interface OrderController {
     @Path("orders")
     @ApiOperation("create order")
     OrderResponse createOrder(OrderRequest request);
+
+    @PUT
+    @Path("orders")
+    @ApiOperation("create order")
+    OrderResponse updateOrder(OrderRequest request);
 }

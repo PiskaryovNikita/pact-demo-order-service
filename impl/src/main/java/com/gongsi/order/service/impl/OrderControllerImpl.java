@@ -35,4 +35,12 @@ public class OrderControllerImpl implements OrderController {
 
         return new OrderResponse(user, OffsetDateTime.now(), productResponse);
     }
+
+    @Override
+    public OrderResponse updateOrder(OrderRequest request) {
+        User user = new User(1L, "Name", "e@e.com");
+        final ProductResponse productResponse = productService.updateProduct(request.getProduct());
+
+        return new OrderResponse(user, OffsetDateTime.now(), productResponse);
+    }
 }
